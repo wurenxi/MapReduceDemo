@@ -1,14 +1,13 @@
-package com.atguigu.mapreduce.wordcount;
+package com.atguigu.mapreduce.combineTextInputFormat;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-
-import java.io.IOException;
 
 public class WordCountDriver {
 
@@ -33,9 +32,16 @@ public class WordCountDriver {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
 
+        //如果不设置InputFormat,它默认用的是TextInputFormat.class
+        job.setInputFormatClass(CombineTextInputFormat.class);
+
+        //虚拟存储切片最大值设置4m
+//        CombineTextInputFormat.setMaxInputSplitSize(job,4194304);
+        CombineTextInputFormat.setMaxInputSplitSize(job,4194304*5);
+
         //6.设置输入路径和输出路径
-        FileInputFormat.setInputPaths(job, new Path("D:\\input\\inputword"));
-        FileOutputFormat.setOutputPath(job, new Path("D:\\output\\outputword777"));
+        FileInputFormat.setInputPaths(job, new Path("D:\\input\\inputcombinetextinputformat"));
+        FileOutputFormat.setOutputPath(job, new Path("D:\\output\\outputCombine2"));
 
         //7.提交job
         boolean result = job.waitForCompletion(true);
