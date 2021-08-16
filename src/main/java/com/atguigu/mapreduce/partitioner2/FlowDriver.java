@@ -1,4 +1,4 @@
-package com.atguigu.mapreduce.writable;
+package com.atguigu.mapreduce.partitioner2;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -34,9 +34,12 @@ public class FlowDriver {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(FlowBean.class);
 
+        job.setPartitionerClass(ProvincePartitioner.class);
+        job.setNumReduceTasks(5);
+
         //6.设置数据的输入路径和输出路径
         FileInputFormat.setInputPaths(job,new Path("D:\\input\\inputflow"));
-        FileOutputFormat.setOutputPath(job,new Path("D:\\output\\outputflow"));
+        FileOutputFormat.setOutputPath(job,new Path("D:\\output\\output5"));
 
         //7.提交job
         boolean result = job.waitForCompletion(true);

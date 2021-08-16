@@ -1,4 +1,4 @@
-package com.atguigu.mapreduce.writable;
+package com.atguigu.mapreduce.writableComparable;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -27,16 +27,16 @@ public class FlowDriver {
         job.setReducerClass(FlowReducer.class);
 
         //4.设置mapper输出的key和value类型
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(FlowBean.class);
+        job.setMapOutputKeyClass(FlowBean.class);
+        job.setMapOutputValueClass(Text.class);
 
         //5.设置最终数据输出的key和value类型
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(FlowBean.class);
 
         //6.设置数据的输入路径和输出路径
-        FileInputFormat.setInputPaths(job,new Path("D:\\input\\inputflow"));
-        FileOutputFormat.setOutputPath(job,new Path("D:\\output\\outputflow"));
+        FileInputFormat.setInputPaths(job,new Path("D:\\output\\outputflow"));
+        FileOutputFormat.setOutputPath(job,new Path("D:\\output\\outputflow3"));
 
         //7.提交job
         boolean result = job.waitForCompletion(true);
